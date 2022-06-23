@@ -2,13 +2,13 @@
 
 Oppgave: Skriv ut tallene fra 0 til 9 på hver sin linje i konsollen.
 
-Python:
+**Python:**
 ```python
 for i in range(10):
   print(i)
 ```
 
-Java:
+**Java:**
 ```java
 public class Main {
   public static void main(String[] args) {
@@ -19,7 +19,7 @@ public class Main {
 }
 ```
 
-C:
+**C:**
 ```C
 #include <stdio.h>
 
@@ -30,7 +30,7 @@ int main() {
 }
 ```
 
-Assembly. This is essentially what you get if you compile the above C program above (before linking), with a manual facelift and comments highlighting interesting sections added afterwards. Compiled using clang with the -S flag on an M1 Mac, yielding ARM assembly language:
+**Assembly.** Dette er et språk som er nærmere hva datamaskinen forstår. I disse dager er det relativt få utviklere som noensinne programmerer i assembly. I stedet benyttes det programmer som *kompilator* eller *fortolker* for å automatisk oversette høyere-nivå språk til assembly. Under viser vi omtrent det du får dersom du kompilerer C-programmet over, men med litt manuelle forenklinger og forklarende kommentarer for noen interessante deler av koden. Kompilert med clang på en M1-prosessor, som altså benytter ARM sitt assembly-språk.
 ```
 	.section	__TEXT,__text,regular,pure_instructions
 	.globl	_main
@@ -67,4 +67,18 @@ l_.str:
 	.asciz	"%d\n"
 ```
 
-Machine code.
+**Maskin-kode.** Assembly-kode kan videre oversettes til maskin-kode, som er en samling med 0'ere og 1'ere. Vi viser her koden som hexadesimale tall: hvert symbol tilsvarer fire binærer verdier (1'ere eller 0'ere). Når programmet kjøres lastes disse verdiene rent fysisk inne i datamaskinen sitt minne (RAM) som små spenningsforskjeller der 1'ere typisk har høy spenning, mens 0'ere typisk har lav spenning.
+```
+ff8300d1 fd7b01a9 fd430091 bfc31fb8 ff0b00b9 e80b40b9 08250071 8c010054
+e90b40b9 e80309aa 00000090 00000091 e9030091 280100f9 00000094 e80b40b9 
+08050011 e80b00b9 f3ffff17 00008052 fd7b41a9 ff830091 c0035fd6
+```
+
+Det er en tett korrespondandse mellom maskin-koden og assembly-koden, hvor hver linje med assembly tilsvarer en bestemt sekvens med 1'ere og 0'ere.
+```
+ff 83 00 d1  	=> sub	sp, sp, #32
+fd 7b 01 a9  	=> stp	x29, x30, [sp, #16]
+fd 43 00 91  	=> add	x29, sp, #16
+bf c3 1f b8  	=> stur	wzr, [x29, #-4]
+...
+```
