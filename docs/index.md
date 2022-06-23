@@ -19,7 +19,7 @@ public class Main {
 ```
 
 **C:**
-```C
+```cpp
 #include <stdio.h>
 
 int main() {
