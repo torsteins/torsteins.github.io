@@ -30,7 +30,7 @@ int main() {
 }
 ```
 
-Assembly. This is essentially what you get if you compile the above C program above, with a manual facelift and comments highlighting interesting sections added afterwards. Compiled using clang with the -S flag on an M1 Mac, yielding ARM assembly language:
+Assembly. This is essentially what you get if you compile the above C program above (before linking), with a manual facelift and comments highlighting interesting sections added afterwards. Compiled using clang with the -S flag on an M1 Mac, yielding ARM assembly language:
 ```
 	.section	__TEXT,__text,regular,pure_instructions
 	.globl	_main           ; When the program starts, go to the first instruction in _main
@@ -44,7 +44,7 @@ _main:
 LB_CHECK:
 	ldr	w8, [sp, #8]    ; Make a copy of the number in the box labeled "i" and put it in register w8
 	subs	w8, w8, #9      ; Subtract 9 from the number in register w8
-	b.gt	LB_ENDING       ; If the number at register w8 is greater than 0, jump to ending section
+	b.gt	LB_ENDING       ; If result of previous computation was greater than 0, jump to ending section
 	ldr	w9, [sp, #8]
 	mov	x8, x9
 	adrp	x0, l_.str@PAGE
@@ -66,3 +66,5 @@ LB_ENDING:
 l_.str:
 	.asciz	"%d\n"
 ```
+
+So
