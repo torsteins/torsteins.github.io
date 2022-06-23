@@ -1,5 +1,4 @@
-# Sammenligning av programmeringsspråk
-
+# Fra høy-nivå språ til maskinkode
 Oppgave: Skriv ut tallene fra 0 til 9 på hver sin linje i konsollen.
 
 **Python:**
