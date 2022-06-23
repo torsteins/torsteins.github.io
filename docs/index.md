@@ -53,7 +53,7 @@ LB_LOOP:
 	mov	x9, sp
 	str	x8, [x9]
 	bl	_printf         ; Do the print function
-	ldr	w8, [sp, #8]    ; Make a copy of the number in the box labeled "i" and put it in register w8
+	ldr	w8, [sp, #8]    ; Make a copy of the number in location "i" and put it in register w8 (seen this before?)
 	add	w8, w8, #1      ; Add one to the number at register w8
 	str	w8, [sp, #8]    ; Put back the number at register w8 into the box labeled with "i" (str
 	b	LB_LOOP         ; Go back to performing the check at the start of the loop
@@ -68,12 +68,13 @@ l_.str:
 	.asciz	"%d\n"
 ```
 Om du forsøker å følge koden; her er betydningen av noen kodeord og kommandoer som blir brukt:
- - ldr: load to register.
- - sub(s): subtract.
- - add: add.
- - str: store to memory.
- - 
-Et *register* er en liten lagringsplass inne i prosessoren som kan lagre en verdi på opptil 64 (x-registerne) eller 32 (w-registerne) 1'ere og 0'ere. Det er noen spesielle registere, slik som *sp* (stack pointer) og *wzr* (null-register som alltid er 0). Den delen av koden som ikke er kommentert over omhandler hvordan programmet gjør seg klar til å kjøre en ny metode.
+ - ldr: load to register. Kopierer en verdi fra oppgit minneadresse skriver samme verdi inn i et register.
+ - sub(s): subtract. Tar verdien i et gitt register, trekker fra det oppgitte tallet og lagrer resultatet i et (annet) gitt register.
+ - add: add. Tar verdien i et gitt register, legger til det oppgitte tallet og lagrer restultatet i et (annet) gitt register.
+ - str: store to memory. Kopierer en verdi fra et register og skriver verdien inn på oppgitt minneadresse
+ - b.gt: branch if greater than. Flytter kodeflyten til gitt oppgitt startpunkt dersom forrige utregning gav et resultat større enn 0.
+ - mov: move. Kopierer en verdi inn i et register.
+Et *register* er en liten lagringsplass inne i prosessoren som kan lagre en verdi på opptil 64 (x-registerne) eller 32 (w-registerne) 1'ere og 0'ere. Det er noen spesielle registere, slik som *sp* (stack pointer) og *wzr* (null-register som alltid er 0) og *x0/w0* (returverdien lagres her). De delene av koden som ikke er kommentert over omhandler hvordan programmet gjør seg klar til å kjøre en ny metode.
 
 ## Maskin-kode
 Assembly-kode kan videre oversettes til maskin-kode, som er en samling med 0'ere og 1'ere. Vi viser her koden som hexadesimale tall: hvert symbol tilsvarer fire binærer verdier (1'ere eller 0'ere). Når programmet kjøres lastes disse verdiene rent fysisk inne i datamaskinen sitt minne (RAM) som små spenningsforskjeller der 1'ere typisk har høy spenning, mens 0'ere typisk har lav spenning.
