@@ -72,6 +72,7 @@ Om du forsøker å følge koden; her er betydningen av noen kodeord og kommandoe
  - sub(s): subtract.
  - add: add.
  - str: store to memory.
+ - 
 Et *register* er en liten lagringsplass inne i prosessoren som kan lagre en verdi på opptil 64 (x-registerne) eller 32 (w-registerne) 1'ere og 0'ere. Det er noen spesielle registere, slik som *sp* (stack pointer) og *wzr* (null-register som alltid er 0). Den delen av koden som ikke er kommentert over omhandler hvordan programmet gjør seg klar til å kjøre en ny metode.
 
 ## Maskin-kode
