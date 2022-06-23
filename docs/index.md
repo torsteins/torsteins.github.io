@@ -30,7 +30,8 @@ int main() {
 }
 ```
 
-**Assembly.** Dette er et språk som er nærmere hva datamaskinen forstår. I disse dager er det relativt få utviklere som noensinne programmerer i assembly. I stedet benyttes det programmer som *kompilator* eller *fortolker* for å automatisk oversette høyere-nivå språk til assembly. Under viser vi omtrent det du får dersom du kompilerer C-programmet over, men med litt manuelle forenklinger og forklarende kommentarer for noen interessante deler av koden. Kompilert med clang på en M1-prosessor, som altså benytter ARM sitt assembly-språk.
+## Assembly
+Dette er et språk som er nærmere hva datamaskinen forstår. I disse dager er det relativt få utviklere som noensinne programmerer i assembly. I stedet benyttes det programmer som *kompilator* eller *fortolker* for å automatisk oversette høyere-nivå språk til assembly. Under viser vi omtrent det du får dersom du kompilerer C-programmet over, men med litt manuelle forenklinger og forklarende kommentarer for noen interessante deler av koden. Kompilert med clang på en M1-prosessor, som benytter ARM64 som sitt assembly-språk.
 ```
 	.section	__TEXT,__text,regular,pure_instructions
 	.globl	_main
@@ -40,9 +41,9 @@ _main:
 	stp	x29, x30, [sp, #16]
 	add	x29, sp, #16
 	stur	wzr, [x29, #-4]
-	str	wzr, [sp, #8]   ; Put the value 0 at the location labeled "i" (a.k.a. "[sp, #8]")
-LB_CHECK:
-	ldr	w8, [sp, #8]    ; Make a copy of the number in the box labeled "i" and put it in register w8
+	str	wzr, [sp, #8]   ; Put the value 0 at the location labeled "i" (also known as "[sp, #8]")
+LB_LOOP:
+	ldr	w8, [sp, #8]    ; Make a copy of the number in location "i" and put it in register w8
 	subs	w8, w8, #9      ; Subtract 9 from the number in register w8
 	b.gt	LB_ENDING       ; If result of previous computation was greater than 0, go to ending section
 	ldr	w9, [sp, #8]
@@ -52,10 +53,10 @@ LB_CHECK:
 	mov	x9, sp
 	str	x8, [x9]
 	bl	_printf         ; Do the print function
-	ldr	w8, [sp, #8]    ; Make a copy of the number in the box labeled "i" and hold it with register w8
+	ldr	w8, [sp, #8]    ; Make a copy of the number in the box labeled "i" and put it in register w8
 	add	w8, w8, #1      ; Add one to the number at register w8
-	str	w8, [sp, #8]    ; Put back the number at register w8 into the box labeled with "i"
-	b	LB_CHECK        ; Go back to the performing the check
+	str	w8, [sp, #8]    ; Put back the number at register w8 into the box labeled with "i" (str
+	b	LB_LOOP         ; Go back to performing the check at the start of the loop
 LB_ENDING:
 	mov	w0, #0          ; Put value 0 into the return value register w0
 	ldp	x29, x30, [sp, #16] 
@@ -66,8 +67,15 @@ LB_ENDING:
 l_.str:
 	.asciz	"%d\n"
 ```
+Om du forsøker å følge koden; her er betydningen av noen kodeord og kommandoer som blir brukt:
+ - ldr: load to register.
+ - sub(s): subtract.
+ - add: add.
+ - str: store to memory.
+Et *register* er en liten lagringsplass inne i prosessoren som kan lagre en verdi på opptil 64 (x-registerne) eller 32 (w-registerne) 1'ere og 0'ere. Det er noen spesielle registere, slik som *sp* (stack pointer) og *wzr* (null-register som alltid er 0). Den delen av koden som ikke er kommentert over omhandler hvordan programmet gjør seg klar til å kjøre en ny metode.
 
-**Maskin-kode.** Assembly-kode kan videre oversettes til maskin-kode, som er en samling med 0'ere og 1'ere. Vi viser her koden som hexadesimale tall: hvert symbol tilsvarer fire binærer verdier (1'ere eller 0'ere). Når programmet kjøres lastes disse verdiene rent fysisk inne i datamaskinen sitt minne (RAM) som små spenningsforskjeller der 1'ere typisk har høy spenning, mens 0'ere typisk har lav spenning.
+## Maskin-kode
+Assembly-kode kan videre oversettes til maskin-kode, som er en samling med 0'ere og 1'ere. Vi viser her koden som hexadesimale tall: hvert symbol tilsvarer fire binærer verdier (1'ere eller 0'ere). Når programmet kjøres lastes disse verdiene rent fysisk inne i datamaskinen sitt minne (RAM) som små spenningsforskjeller der 1'ere typisk har høy spenning, mens 0'ere typisk har lav spenning.
 ```
 ff8300d1 fd7b01a9 fd430091 bfc31fb8 ff0b00b9 e80b40b9 08250071 8c010054
 e90b40b9 e80309aa 00000090 00000091 e9030091 280100f9 00000094 e80b40b9 
