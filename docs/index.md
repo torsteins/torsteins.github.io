@@ -30,10 +30,10 @@ int main() {
 }
 ```
 
-Assembly (this is essentially what you get if you compile the above C program above, with a manual facelift afterwards):
+Assembly. This is essentially what you get if you compile the above C program above, with a manual facelift and comments highlighting interesting sections added afterwards. Compiled using clang with the -S flag on an M1 Mac, yielding ARM assembly language:
 ```
 	.section	__TEXT,__text,regular,pure_instructions
-	.globl	_main       ; When the program starts, go to the first instruction in _main
+	.globl	_main           ; When the program starts, go to the first instruction in _main
 	.p2align	2
 _main:
 	sub	sp, sp, #32
@@ -43,8 +43,8 @@ _main:
 	str	wzr, [sp, #8]   ; Put the value 0 at the location labeled "i" (a.k.a. "[sp, #8]")
 LB_CHECK:
 	ldr	w8, [sp, #8]    ; Make a copy of the number in the box labeled "i" and put it in register w8
-	subs	w8, w8, #9    ; Subtract 9 from the number in register w8
-	b.gt	LB_ENDING     ; If the number at register w8 is greater than 0, jump to ending section
+	subs	w8, w8, #9      ; Subtract 9 from the number in register w8
+	b.gt	LB_ENDING       ; If the number at register w8 is greater than 0, jump to ending section
 	ldr	w9, [sp, #8]
 	mov	x8, x9
 	adrp	x0, l_.str@PAGE
@@ -55,7 +55,7 @@ LB_CHECK:
 	ldr	w8, [sp, #8]    ; Make a copy of the number in the box labeled "i" and hold it with register w8
 	add	w8, w8, #1      ; Add one to the number at register w8
 	str	w8, [sp, #8]    ; Put back the number at register w8 into the box labeled with "i"
-	b	LB_CHECK          ; Go back to the performing the check
+	b	LB_CHECK        ; Go back to the performing the check
 LB_ENDING:
 	mov	w0, #0          ; Return value 0 put in register w0
 	ldp	x29, x30, [sp, #16] 
