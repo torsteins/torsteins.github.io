@@ -74,6 +74,7 @@ Om du forsøker å følge koden; her er betydningen av noen kodeord og kommandoe
  - str: store to memory. Kopierer en verdi fra et register og skriver verdien inn på oppgitt minneadresse
  - b.gt: branch if greater than. Flytter kodeflyten til gitt oppgitt startpunkt dersom forrige utregning gav et resultat større enn 0.
  - mov: move. Kopierer en verdi inn i et register.
+ - 
 Et *register* er en liten lagringsplass inne i prosessoren som kan lagre en verdi på opptil 64 (x-registerne) eller 32 (w-registerne) 1'ere og 0'ere. Det er noen spesielle registere, slik som *sp* (stack pointer) og *wzr* (null-register som alltid er 0) og *x0/w0* (returverdien lagres her). De delene av koden som ikke er kommentert over omhandler hvordan programmet gjør seg klar til å kjøre en ny metode.
 
 ## Maskin-kode
