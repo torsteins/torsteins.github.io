@@ -44,7 +44,7 @@ _main:
 LB_LOOP:
 	ldr	w8, [sp, #8]    ; Make a copy of the number in location "i" and put it in register w8
 	subs	w8, w8, #9      ; Subtract 9 from the number in register w8
-	b.gt	LB_ENDING       ; If result of previous computation was greater than 0, go to ending section
+	b.gt	LB_ENDING       ; If result of previous computation was greater than 0, go to LB_ENDING
 	ldr	w9, [sp, #8]
 	mov	x8, x9
 	adrp	x0, l_.str@PAGE
@@ -52,9 +52,9 @@ LB_LOOP:
 	mov	x9, sp
 	str	x8, [x9]
 	bl	_printf         ; Do the print function
-	ldr	w8, [sp, #8]    ; Make a copy of the number in location "i" and put it in register w8 (seen this before?)
+	ldr	w8, [sp, #8]    ; Make a copy of the number in location "i" and put it in register w8
 	add	w8, w8, #1      ; Add one to the number at register w8
-	str	w8, [sp, #8]    ; Put back the number at register w8 into the box labeled with "i" (str
+	str	w8, [sp, #8]    ; Put back the number at register w8 into the box labeled with "i"
 	b	LB_LOOP         ; Go back to performing the check at the start of the loop
 LB_ENDING:
 	mov	w0, #0          ; Put value 0 into the return value register w0
