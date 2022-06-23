@@ -1,10 +1,6 @@
-# Overskrift
+# Sammenligning av programmeringsspråk
 
-Tekst
-
-> Sitat
-
-Skriv ut tallene fra 1 til 10.
+Oppgave: Skriv ut tallene fra 1 til 10 i konsollen.
 
 Python:
 ```python
